@@ -20,6 +20,7 @@
     "@sap/eslint-plugin-cds": "^3",
     "@sap/ux-specification": "^1.120.16",
     "eslint": "^9",
+    "jest": "^29.7.0",
     "rimraf": "^5.0.5"
   },
   "scripts": {
@@ -29,7 +30,6 @@
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
     "test": "jest"
-
   },
   "cds": {
     "requires": {
