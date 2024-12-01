@@ -1,0 +1,354 @@
+{
+  "namespace": "my.app",
+  "definitions": {
+    "my.app.master": {
+      "kind": "context"
+    },
+    "my.app.master.User": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "UserName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "my.app.master.Role": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "RoleName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "my.app.master.Screen": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ScreenName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "my.app.master.UserRoleMapping": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "User": {
+          "type": "cds.Association",
+          "target": "my.app.master.User",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Role": {
+          "type": "cds.Association",
+          "target": "my.app.master.Role",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.app.master.RoleScreenMapping": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "Role": {
+          "type": "cds.Association",
+          "target": "my.app.master.Role",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Screen": {
+          "type": "cds.Association",
+          "target": "my.app.master.Screen",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.app.master.FilterScreen": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ScreenName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "my.app.master.Product": {
+      "kind": "entity",
+      "elements": {
+        "pId": {
+          "type": "cds.Integer"
+        },
+        "pName": {
+          "type": "cds.String",
+          "length": 50
+        },
+        "pPrice": {
+          "type": "cds.Int64"
+        }
+      }
+    },
+    "MyService": {
+      "@source": "srv/service.cds",
+      "kind": "service"
+    },
+    "MyService.Users": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.User"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "UserName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "MyService.Roles": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.Role"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "RoleName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "MyService.Screens": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.Screen"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ScreenName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "MyService.UserRoleMappings": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.UserRoleMapping"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "User": {
+          "type": "cds.Association",
+          "target": "MyService.Users",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Role": {
+          "type": "cds.Association",
+          "target": "MyService.Roles",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "MyService.RoleScreenMappings": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.RoleScreenMapping"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "Role": {
+          "type": "cds.Association",
+          "target": "MyService.Roles",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Screen": {
+          "type": "cds.Association",
+          "target": "MyService.Screens",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "MyService.FilterScreen": {
+      "kind": "entity",
+      "@requires": "authenticated-user",
+      "@UI.FieldGroup#GeneratedGroup.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#GeneratedGroup.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Label": "ID",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "ScreenName",
+          "Value": {
+            "=": "ScreenName"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "GeneratedFacet1",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#GeneratedGroup"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "MyService.EntityContainer/getUser",
+          "Label": "get screens"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "ID",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Label": "ScreenName",
+          "Value": {
+            "=": "ScreenName"
+          }
+        }
+      ],
+      "@UI.HeaderInfo.TypeName": "Welcome Parimi Ramanaiah",
+      "@UI.HeaderInfo.TypeNamePlural": "Welcome Parimi Ramanaiah",
+      "projection": {
+        "from": {
+          "ref": [
+            "my.app.master.FilterScreen"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ScreenName": {
+          "type": "cds.String",
+          "length": 50
+        }
+      }
+    },
+    "MyService.getUser": {
+      "kind": "action"
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v4.9.8",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="MyService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Users" EntityType="MyService.Users"/>
+        <EntitySet Name="Roles" EntityType="MyService.Roles"/>
+        <EntitySet Name="Screens" EntityType="MyService.Screens"/>
+        <EntitySet Name="UserRoleMappings" EntityType="MyService.UserRoleMappings">
+          <NavigationPropertyBinding Path="User" Target="Users"/>
+          <NavigationPropertyBinding Path="Role" Target="Roles"/>
+        </EntitySet>
+        <EntitySet Name="RoleScreenMappings" EntityType="MyService.RoleScreenMappings">
+          <NavigationPropertyBinding Path="Role" Target="Roles"/>
+          <NavigationPropertyBinding Path="Screen" Target="Screens"/>
+        </EntitySet>
+        <EntitySet Name="FilterScreen" EntityType="MyService.FilterScreen"/>
+        <ActionImport Name="getUser" Action="MyService.getUser"/>
+      </EntityContainer>
+      <EntityType Name="Users">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="UserName" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+      <EntityType Name="Roles">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="RoleName" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+      <EntityType Name="Screens">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ScreenName" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+      <EntityType Name="UserRoleMappings">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="User" Type="MyService.Users">
+          <ReferentialConstraint Property="User_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="User_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Role" Type="MyService.Roles">
+          <ReferentialConstraint Property="Role_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="Role_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="RoleScreenMappings">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="Role" Type="MyService.Roles">
+          <ReferentialConstraint Property="Role_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="Role_ID" Type="Edm.Int32"/>
+        <NavigationProperty Name="Screen" Type="MyService.Screens">
+          <ReferentialConstraint Property="Screen_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="Screen_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="FilterScreen">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="ScreenName" Type="Edm.String" MaxLength="50"/>
+      </EntityType>
+      <Action Name="getUser" IsBound="false"/>
+      <Annotations Target="MyService.FilterScreen">
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneratedGroup">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="ID"/>
+                  <PropertyValue Property="Value" Path="ID"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Label" String="ScreenName"/>
+                  <PropertyValue Property="Value" Path="ScreenName"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="GeneratedFacet1"/>
+              <PropertyValue Property="Label" String="General Information"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneratedGroup"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="MyService.EntityContainer/getUser"/>
+              <PropertyValue Property="Label" String="get screens"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="ID"/>
+              <PropertyValue Property="Value" Path="ID"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="ScreenName"/>
+              <PropertyValue Property="Value" Path="ScreenName"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Welcome Parimi Ramanaiah"/>
+            <PropertyValue Property="TypeNamePlural" String="Welcome Parimi Ramanaiah"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

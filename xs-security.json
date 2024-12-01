@@ -1,0 +1,35 @@
+{
+  "xsappname": "task",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Token_Exchange",
+      "description": "UAA",
+      "scope-references": [
+        "uaa.user"
+      ]
+    }
+  ],
+  "authorities": [
+    "$ACCEPT_GRANTED_AUTHORITIES"
+   ],
+   "oauth2-configuration": {
+    "token-validity": 900,
+    "refresh-token-validity": 1800,
+    "redirect-uris": [
+     "https://*.applicationstudio.cloud.sap/**",
+     "https://*.us10-001.hana.ondemand.com/login/callback",
+     "https://*.cfapps.us10-001.hana.ondemand.com/**"
+    ],
+    "autoapprove": "false"
+   },
+   "xsenableasyncservice": "true",
+   "attributes": []
+}

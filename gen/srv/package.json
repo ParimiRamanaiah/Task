@@ -1,0 +1,81 @@
+{
+  "name": "task",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/postgres": "^1.10.0",
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "csv-parser": "^3.0.0",
+    "express": "^4",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/eslint-plugin-cds": "^3",
+    "@sap/ux-specification": "^1.120.16",
+    "eslint": "^9",
+    "rimraf": "^5.0.5"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-screens": "cds watch --open screens/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy task --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "[development]": {
+          "kind": "sqlite",
+          "schema_evolution": "auto",
+          "credentials": {
+            "database": "task"
+          }
+        },
+        "[production]": {
+          "kind": "postgres",
+          "pool": {
+            "max": 2000000,
+            "min": 10,
+            "idle": 2000000,
+            "acquire": 2000000
+          },
+          "impl": "@cap-js/postgres",
+          "dialect": "postgres"
+        }
+      },
+      "rest_api": {
+        "kind": "rest",
+        "credentials": {
+          "forwardAuthToken": true
+        }
+      },
+      "auth": {
+        "[development]": {
+          "kind": "basic",
+          "users": {
+            "Sravani@gmail.com": {
+              "password": "initial"
+            }
+          }
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      },
+      "[production]": {
+        "auth": "xsuaa"
+      }
+    }
+  },
+  "sapux": [
+    "app/screens"
+  ]
+}
