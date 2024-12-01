@@ -7,6 +7,6 @@ service MyService {
     entity UserRoleMappings as projection on master.UserRoleMapping;
     entity RoleScreenMappings as projection on master.RoleScreenMapping;
     @requires: 'authenticated-user'
-    entity FilterScreen as projection on master.FilterScreen
+    entity FilterScreen as projection on master.FilterScreen;
     action getUser();
 }
