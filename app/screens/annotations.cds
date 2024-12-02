@@ -27,7 +27,7 @@ annotate service.FilterScreen with @(
         {
             $Type : 'UI.DataFieldForAction',
             Action : 'MyService.EntityContainer/getUser',
-            Label:'get screens'
+            Label:'get screens data'
         },
         {
             $Type : 'UI.DataField',
